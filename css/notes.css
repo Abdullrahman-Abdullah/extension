@@ -1,0 +1,489 @@
+/* ===== Notes Widget - Glass Style ===== */
+.glass-notes {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;  /* في الجهة اليسرى عشان تفرق عن todo */
+    width: 300px;
+    background: rgba(25, 30, 40, 0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+    font-family: 'Inter', sans-serif;
+    z-index: 999997;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: box-shadow 0.2s ease;
+    color: white;
+    overflow: hidden;
+}
+
+.glass-notes.dragging {
+    opacity: 0.95;
+    transform: scale(1.01);
+    box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.7);
+    transition: none;
+    cursor: grabbing !important;
+}
+
+/* مقبض السحب */
+.notes-drag-handle {
+    padding: 14px 16px 4px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: grab;
+    border-radius: 24px 24px 0 0;
+    transition: background 0.2s;
+}
+
+.notes-drag-handle:active {
+    cursor: grabbing;
+}
+
+.notes-drag-handle:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.notes-drag-handle:hover .drag-dots span {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* نقاط السحب */
+.drag-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.drag-dots span {
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.drag-hint {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.3px;
+}
+
+/* محتوى الملاحظات */
+.notes-content {
+    padding: 0 16px 16px 16px;
+}
+
+/* الهيدر */
+.notes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.notes-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    font-weight: 520;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.notes-title i {
+    font-size: 1.3rem;
+    color: #6ee7b7;  /* لون مختلف عن todo */
+    background: rgba(110, 231, 183, 0.12);
+    padding: 8px;
+    border-radius: 12px;
+}
+
+.notes-add-btn {
+    width: 36px;
+    height: 36px;
+    background: rgba(110, 231, 183, 0.15);
+    border: 1px solid rgba(110, 231, 183, 0.2);
+    border-radius: 10px;
+    color: #6ee7b7;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+}
+
+.notes-add-btn:hover {
+    background: rgba(110, 231, 183, 0.25);
+    transform: scale(1.1);
+    color: #6ee7b7;
+}
+
+/* قائمة الملاحظات */
+.notes-list {
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+}
+
+.notes-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.notes-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+}
+
+.notes-list::-webkit-scrollbar-thumb {
+    background: rgba(110, 231, 183, 0.2);
+    border-radius: 20px;
+}
+
+.notes-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(110, 231, 183, 0.3);
+}
+
+/* بطاقة الملاحظة */
+.note-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 14px;
+    transition: all 0.2s;
+    animation: fadeInNote 0.25s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.note-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: #6ee7b7;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+}
+
+.note-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(110, 231, 183, 0.2);
+    transform: translateX(-3px);
+}
+
+.note-card:hover::before {
+    opacity: 1;
+}
+
+@keyframes fadeInNote {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.note-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.95);
+    padding-right: 8px;
+}
+
+.note-preview {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+    padding-right: 8px;
+    line-height: 1.4;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 2; */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+
+/* ===== مقبض تغيير الحجم للملاحظات ===== */
+.notes-resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    cursor: nw-resize;
+    z-index: 1000001;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.glass-notes:hover .notes-resize-handle {
+    opacity: 1;
+}
+
+.notes-resize-handle i {
+    font-size: 1rem;
+    transform: rotate(90deg);
+}
+
+.notes-resize-handle:hover {
+    color: #6ee7b7;
+    opacity: 1;
+}
+
+/* عند تغيير الحجم */
+.glass-notes.resizing {
+    transition: none !important;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* أضف position: relative للعنصر الأساسي */
+.glass-notes {
+    position: fixed;
+    /* ... باقي الخصائص ... */
+    resize: none;
+    min-width: 260px;
+    min-height: 280px;
+    max-width: 600px;
+    max-height: 700px;
+}
+
+.glass-notes {
+    position: fixed !important;  /* مهم جداً */
+    z-index: 1000;  /* قيمة افتراضية */
+    /* باقي الخصائص */
+}
+
+.glass-notes.active-layer {
+    box-shadow: 0 0 0 2px #6ee7b7, 0 30px 60px -10px rgba(110, 231, 183, 0.5);
+}
+.note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.note-date {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.note-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.note-edit-btn, .note-delete-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 4px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.note-edit-btn:hover {
+    color: #6ee7b7;
+    background: rgba(110, 231, 183, 0.1);
+}
+
+.note-delete-btn:hover {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* Modal النوافذ */
+.notes-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000001;
+}
+
+.notes-modal-backdrop.active {
+    display: flex;
+}
+
+.notes-modal {
+    width: 400px;
+    background: rgba(25, 30, 40, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    animation: modalAppear 0.2s ease;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.notes-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.notes-modal-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.notes-modal-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.notes-modal-close:hover {
+    color: white;
+}
+
+.notes-modal-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notes-title-input, .notes-content-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1.5px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    color: white;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.notes-title-input:focus, .notes-content-input:focus {
+    outline: none;
+    border-color: #6ee7b7;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.notes-content-input {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.notes-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.notes-btn-cancel, .notes-btn-save {
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.notes-btn-cancel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.notes-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.notes-btn-save {
+    background: #6ee7b7;
+    border: 1px solid #6ee7b7;
+    color: #1a1e2a;
+    font-weight: 500;
+}
+
+.notes-btn-save:hover {
+    background: #5fd8a8;
+}
+
+/* رسالة فارغة */
+.notes-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    color: rgba(255, 255, 255, 0.2);
+    gap: 10px;
+    text-align: center;
+}
+
+.notes-empty i {
+    font-size: 2.5rem;
+}
+
+.notes-empty p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 500px) {
+    .glass-notes {
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+    }
+    
+    .notes-modal {
+        width: calc(100% - 40px);
+    }
+}

@@ -1,0 +1,216 @@
+/**
+ * datetime.css - أنماط الوقت والتاريخ
+ * تصميم زجاجي موحد مع باقي العناصر
+ */
+
+/* ===== المشترك بين العنصرين ===== */
+.glass-time,
+.glass-date {
+    position: fixed;
+    min-width: 200px;
+    min-height: 120px;
+    /* background: rgba(25, 30, 40, 0.75); */
+    /* backdrop-filter: blur(16px) saturate(180%); */
+    /* -webkit-backdrop-filter: blur(16px) saturate(180%); */
+    border: 1px solid rgba(255, 255, 255, 0.014);
+    border-radius: 28px;
+    /* box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4); */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: white;
+    z-index: 999990;
+    user-select: none;
+    transition: box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+/* مواضع افتراضية مختلفة */
+.glass-time {
+    bottom: 350px;
+    left: 25px;
+}
+
+.glass-date {
+    bottom: 200px;
+    left: 25px;
+}
+
+/* حالة السحب */
+.glass-time.dragging,
+.glass-date.dragging {
+    opacity: 0.95;
+    transform: scale(1.01);
+    box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.6);
+    transition: none;
+    cursor: grabbing !important;
+    backdrop-filter: blur(20px);
+
+}
+
+/* مقابض السحب */
+.time-drag-handle,
+.date-drag-handle {
+    padding: 14px 16px 4px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: grab;
+    border-radius: 28px 28px 0 0;
+    transition: background 0.2s;
+}
+
+.time-drag-handle:active,
+.date-drag-handle:active {
+    cursor: grabbing;
+}
+
+.time-drag-handle:hover,
+.date-drag-handle:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.time-drag-handle:hover .drag-dots span,
+.date-drag-handle:hover .drag-dots span {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* نقاط السحب */
+.drag-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.drag-dots span {
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.drag-hint {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.3px;
+}
+
+/* المحتوى */
+.time-content,
+.date-content {
+    padding: 8px 20px 20px 20px;
+    text-align: center;
+}
+
+/* الأيقونات */
+.time-icon,
+.date-icon {
+    margin-bottom: 8px;
+}
+
+.time-icon i,
+.date-icon i {
+    font-size: 2rem;
+    opacity: 0.8;
+}
+
+.time-icon i {
+    color: #fbbf24;  /* لون ذهبي للوقت */
+}
+
+.date-icon i {
+    color: #60a5fa;  /* لون أزرق للتاريخ */
+}
+
+/* ===== عناصر الوقت ===== */
+.time-display {
+    font-size: 2.8rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 2px;
+    color: white;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+.time-period {
+    font-size: 1rem;
+    opacity: 0.7;
+    margin-top: 4px;
+    letter-spacing: 1px;
+    color: #fbbf24;
+}
+
+/* ===== عناصر التاريخ ===== */
+.date-display {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: white;
+    text-transform: capitalize;
+}
+
+.date-full {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+    color: #60a5fa;
+}
+
+/* ===== مقابض تغيير الحجم ===== */
+.time-resize-handle,
+.date-resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    cursor: nw-resize;
+    z-index: 1000001;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.time-resize-handle:hover {
+    opacity: 1;
+    color: #fbbf24;
+}
+
+.date-resize-handle:hover {
+    opacity: 1;
+    color: #60a5fa;
+}
+
+/* ===== الطبقة النشطة ===== */
+ /* .glass-time.active-layer {
+    box-shadow: 0 0 0 2px #fbbf24, 0 30px 60px -10px rgba(251, 191, 36, 0.4) !important;
+    
+}
+
+.glass-date.active-layer {
+    box-shadow: 0 0 0 2px #60a5fa, 0 30px 60px -10px rgba(96, 165, 250, 0.4) !important;
+}  */
+
+.glass-date:hover, .glass-time:hover{
+    backdrop-filter: blur(20px);
+}
+/* ===== تصميم متجاوب ===== */
+@media (max-width: 600px) {
+    .glass-time,
+    .glass-date {
+        min-width: 160px;
+    }
+    
+    .time-display {
+        font-size: 2rem;
+    }
+    
+    .date-display {
+        font-size: 1.3rem;
+    }
+    
+    .date-full {
+        font-size: 0.9rem;
+    }
+}

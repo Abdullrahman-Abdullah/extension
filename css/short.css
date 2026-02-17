@@ -1,0 +1,732 @@
+/* ========================SEARCH BAR =================== */
+
+#LogoContainer {
+    position: absolute; /* Permite poziÈ›ionarea exactÄƒ folosind top È™i left */
+    top: 40vh; /* AjusteazÄƒ valoarea dupÄƒ cum doreÈ™ti */
+    left: 50vw; /* AjusteazÄƒ valoarea dupÄƒ cum doreÈ™ti */
+    transform: translate(-50%, -50%); /* CentreazÄƒ logo-ul Ã®n poziÈ›ia specificatÄƒ */
+    text-align: center; /* CentreazÄƒ logo-ul Ã®n interiorul containerului */
+    z-index: 10; /* AsigurÄƒ cÄƒ logo-ul este deasupra altor elemente */
+    filter: brightness(0.9); /* Removed blur from logo */
+    transition: filter 0.3s;
+}
+
+#wLogo {
+    max-width: 150px; /* AjusteazÄƒ dimensiunea logo-ului */
+    height: auto; /* PÄƒstreazÄƒ proporÈ›iile logo-ului */
+	filter: opacity(0.5);
+	transition: filter 0.5s;
+    filter: opacity(0.5) brightness(0.9); /* Removed blur from logo image */
+    transition: filter 0.3s;
+}
+
+#wLogo:hover {
+	filter: opacity(1);
+}
+
+/* Stiluri pentru bara de cÄƒutare */
+#searchBar {
+    align-items: center;
+    border-radius: calc(100px * var(--scale));
+    display: flex;
+    font-size: calc(20px * var(--scale));
+    height: calc(56px * var(--scale));
+    justify-content: center;
+    margin-inline: auto;
+    outline: none;
+    overflow: hidden;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translateX(-50%);
+    transition: backdrop-filter 0.3s ease-in-out;
+    width: calc(720px * var(--scale));
+    max-width: 90vw;
+    z-index: 10005; /* Sub sidenav */
+}
+
+#searchBar * {
+    background: var(--bg);
+    backdrop-filter: blur(calc(4px * var(--scale)));
+    color: var(--text);
+}
+
+#searchBar span,
+#searchBar img {
+    border-radius: 100px;
+    padding: calc(10px * var(--scale));
+    align-items: center;
+    aspect-ratio: 1;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    height: calc(56px * var(--scale));
+}
+
+#searchBar img {
+    border: 2px solid transparent;
+    cursor: default;
+}
+
+#searchBar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(56px * var(--scale)); /* Dimensiunea pÄƒtratului */
+    height: calc(56px * var(--scale)); /* Dimensiunea pÄƒtratului */
+    background-color: rgba(0, 0, 0, 0.1); /* Fundal negru puÈ›in transparent */
+    border-radius: 50%; /* ColÈ›uri rotunjite pentru fundalul pÄƒtrat */
+    margin-right: calc(8px * var(--scale)); /* SpaÈ›iu Ã®ntre fundalul pÄƒtrat È™i input */
+    text-decoration: none; /* EliminÄƒ sublinierea implicitÄƒ a link-ului */
+    padding: calc(8px * var(--scale)); /* AsigurÄƒ centrare È™i dimensiuni consistente */
+    box-sizing: border-box; /* AsigurÄƒ cÄƒ padding-ul este inclus Ã®n dimensiuni */
+    transition: background-color 0.2s, box-shadow 0.2s; /* Efect de tranziÈ›ie mai rapidÄƒ pentru culoarea fundalului È™i umbrire */
+}
+
+#searchBar a:hover {
+    background-color: rgba(0, 0, 0, 0.3); /* SchimbÄƒ culoarea fundalului la trecerea peste imagine */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* AdaugÄƒ o umbrire mai pronunÈ›atÄƒ */
+}
+
+#searchBar span {
+    position: absolute;
+    right: 0;
+    /* top: auto; */
+    /* border-radius: 40% 0px 0px 40%; */
+    border: none; 
+    padding-left:3.1%;
+    height: 99%;
+    background-color: #764ba200;
+    margin-left: 0;
+    transition: scale 5s ease-in-out;
+    transition: padding-left 0.5s ease-in-out;
+    font-size: 1.8em;
+    font-weight: 100;
+    opacity: 0.7;
+    z-index: 99999999999;
+}
+
+/* #searchBar span::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--bg);
+    backdrop-filter: blur(calc(4px * var(--scale)));
+    } */
+    
+    #searchBar span:hover {
+        background-color: #3b54c218;
+        opacity: 1  ;
+}
+
+/* #searchBar span:hover::before {
+    transform: scaleX(s);
+    background: transparent;
+} */
+
+#searchInput {
+    width: 100%;
+} 
+
+#searchInput::placeholder {
+    color: var(--text);
+}
+
+/* Overlay-ul pentru blur È™i Ã®ntunecare */
+#blurOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(0); /* FÄƒrÄƒ blur iniÈ›ial */
+    background-color: rgba(0, 0, 0, 0); /* FÄƒrÄƒ Ã®ntunecare iniÈ›ial */
+    transition: backdrop-filter 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    pointer-events: none; /* Nu permite interacÈ›iunea cu overlay-ul */
+    z-index: 8; /* AsigurÄƒ cÄƒ overlay-ul este sub bara de cÄƒutare */
+}
+
+/* Stiluri pentru activarea efectului de blur È™i Ã®ntunecare */
+#searchBar:hover ~ #blurOverlay,
+#searchBar:focus-within ~ #blurOverlay {
+    backdrop-filter: blur(10px); /* AplicÄƒ blur la fundal */
+    background-color: rgba(0, 0, 0, 0.5); /* AdaugÄƒ Ã®ntunecare */
+    pointer-events: all; /* Permite interacÈ›iunea cu overlay-ul */
+}
+
+/* Stiluri adiÈ›ionale pentru bara de cÄƒutare */
+
+
+/* Stiluri pentru autocomplete */
+
+
+/* Asigurare culoare consistentÄƒ */
+#searchInput {
+    background-color: var(--bg); /* Fundal iniÈ›ial */
+    color: var(--text); /* Culoare text */
+}
+
+/* ========================SHORTCUT=================== */
+
+#shortcuts {
+    position: absolute; /* Relativ faÈ›Äƒ de viewport */
+    top: calc(50vh + 60px); /* PoziÈ›ionat imediat sub #searchBar (50vh + Ã®nÄƒlÈ›imea barei) */
+    left: 50vw; /* Centrat pe orizontalÄƒ */
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    z-index: 10005;
+    width: 90vw;
+    max-width: 900px;
+    margin-top: 10px;
+    transition: opacity 0.4s, transform 0.4s;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#shortcuts.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+    pointer-events: none;
+}
+
+/* Shortcut-uri pentru ecrane mici */
+@media (max-width: 768px) {
+    #shortcuts {
+        top: calc(50vh + 70px); /* AjusteazÄƒ pentru ecrane mici */
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #shortcuts {
+        flex-direction: column; /* Shortcut-urile Ã®n coloanÄƒ */
+        top: calc(50vh + 80px);
+        gap: 8px;
+    }
+}
+
+
+#shortcuts a:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* CSS pentru shortcuturi */
+.shortcut-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.shortcut-container img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.shortcut-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.shortcut-menu .menu-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.shortcut-menu .menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.shortcut-menu .menu button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.shortcut-menu .menu button:hover {
+    background: #f0f0f0;
+}
+
+.shortcut-menu:hover .menu {
+    display: block;
+}
+
+/* CSS pentru formular */
+#shortcutForm {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+#shortcutForm input {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#shortcutForm button {
+    margin-right: 10px;
+}
+
+
+
+/* Container principal pentru shortcut-uri */
+#shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+
+/* Container pentru shortcut-uri generale */
+#shortcuts-container {
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px; /* SpaÈ›iu faÈ›Äƒ de elementele din partea de sus */
+    margin-bottom: 60px; /* SpaÈ›iu faÈ›Äƒ de elementele din partea de jos */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#shortcuts-container.hide {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(20px) scale(0.95) !important;
+    pointer-events: none !important;
+}
+
+/* Shortcut general */
+.shortcut {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+/* Efect hover */
+.shortcut:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Imaginea shortcut-ului */
+.shortcut img {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+}
+
+/* Textul shortcut-ului */
+.shortcut span {
+    font-size: 14px;
+    color: white;
+    text-align: center;
+}
+
+/* Meniu contextual (3 puncte) */
+.shortcut .menu-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center center;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Efect hover pe butonul de meniu */
+.shortcut .menu-button:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Shortcut pentru adÄƒugare (+) */
+.add-shortcut {
+    background: rgba(0, 200, 150, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    width: 100px;
+    height: 100px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.add-shortcut:hover {
+    background: rgba(0, 200, 150, 0.5);
+    transform: scale(1.05);
+    color: white;
+}
+
+/* Formular pentru adÄƒugare/editare */
+#shortcut-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: 
+        radial-gradient(ellipse at center, 
+            rgba(59, 130, 246, 0.25) 0%, 
+            rgba(15, 23, 42, 0.85) 35%,
+            rgba(0, 0, 0, 0.95) 100%
+        );
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 10110;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                backdrop-filter 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0s linear 0.5s;
+    pointer-events: none;
+}
+
+#shortcut-form-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse 800px 600px at 50% 20%, 
+            rgba(59, 130, 246, 0.2) 0%, 
+            transparent 50%
+        ),
+        radial-gradient(ellipse 600px 800px at 80% 80%, 
+            rgba(147, 51, 234, 0.15) 0%, 
+            transparent 50%
+        );
+    pointer-events: none;
+    animation: backdropGlow 8s ease-in-out infinite alternate;
+    z-index: 1;
+}
+
+#shortcut-form-container.visible {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                backdrop-filter 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.5s ease 0s,
+                visibility 0s linear 0s;
+    pointer-events: all;
+}
+
+#shortcut-form-wrapper {
+    position: relative;
+    background: 
+        linear-gradient(135deg, 
+            rgba(15, 23, 42, 0.95) 0%, 
+            rgba(30, 41, 59, 0.9) 30%,
+            rgba(51, 65, 85, 0.85) 70%,
+            rgba(15, 23, 42, 0.95) 100%
+        );
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(59, 130, 246, 0.1),
+        0 10px 25px rgba(59, 130, 246, 0.15);
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    transform: translateY(-30px) scale(0.9);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10111;
+}
+
+#shortcut-form-container.visible #shortcut-form-wrapper {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+}
+
+#shortcut-form-wrapper h3 {
+    color: #fff;
+    margin-bottom: 24px;
+    font-size: 20px;
+    font-weight: 700;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 12px;
+}
+
+.form-header h3 {
+    flex: 1;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.close-button {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.close-button:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(147, 51, 234, 0.1) 100%);
+    border-color: rgba(102, 126, 234, 0.5);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(102, 126, 234, 0.2);
+}
+
+.close-button:active {
+    transform: scale(0.95);
+}
+
+#shortcut-form input {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 11px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
+    color: #fff;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+#shortcut-form input:focus {
+    outline: none;
+    border-color: rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(102, 126, 234, 0.05) 100%);
+    box-shadow: 
+        inset 0 1px 2px rgba(0,0,0,0.1),
+        0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+#shortcut-form input::placeholder {
+    color: rgba(255,255,255,0.4);
+}
+
+#shortcut-form button {
+    padding: 11px 22px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 1px solid rgba(102, 126, 234, 0.4);
+    border-radius: 11px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 15px rgba(102, 126, 234, 0.3),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    margin-right: 10px;
+    display: inline-block;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+#shortcut-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 25px rgba(102, 126, 234, 0.5),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+    background: linear-gradient(135deg, #7c8eef 0%, #8b5bb9 100%);
+}
+
+#shortcut-form button:active {
+    transform: translateY(0);
+}
+
+#shortcut-form button.secondary {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+#shortcut-form button.secondary:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.25);
+    box-shadow: 
+        0 4px 16px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+#shortcut-form button.danger {
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+    color: white;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    box-shadow: 
+        0 4px 15px rgba(239, 68, 68, 0.3),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    margin-right: 10px;
+}
+
+#shortcut-form button.danger:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
+    box-shadow: 
+        0 6px 25px rgba(239, 68, 68, 0.5),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* StructurÄƒ header pentru titlu È™i butonul X */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Butonul "X" */
+#close-shortcut {
+    position: absolute;
+    top: -5px; /* RidicÄƒ butonul mai sus */
+    right: 0; /* Fixat Ã®n dreapta sus */
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0; /* EliminÄƒm eventuale margini implicite */
+    line-height: 1; /* AsigurÄƒ proporÈ›ii bune */
+    transition: color 0.3s ease;
+}
+
+#close-shortcut:hover {
+    color: #EF4444;
+}
+
+input.error {
+    border: 1px solid #EF4444 !important;
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: #EF4444 !important;
+}
+/* HIDDE SHORTCUT */
+#toggle-shortcuts-container {
+    text-align: center;
+    margin-top: 12px;
+    z-index: 2;
+    position: relative;
+  }
+  
+  #toggle-shortcuts {
+    padding: 6px 12px;
+    font-size: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  
+  #toggle-shortcuts:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+  }
+
+/* Backdrop glow animation for shortcuts modal */
+@keyframes backdropGlow {
+	0% { opacity: 0.8; }
+	100% { opacity: 1; }
+}
+  

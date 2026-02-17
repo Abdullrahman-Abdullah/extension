@@ -1,0 +1,183 @@
+/**
+ * search.css - تصميم حديث وعصري لشريط البحث
+ * @version 2.0
+ */
+
+/* ===== حاوية البحث الرئيسية ===== */
+#searchBar {
+    position: absolute;
+    width: 600px;
+    max-width: 90vw;
+    margin: 20px auto;
+    
+    /* تصميم زجاجي متطور */
+    background: rgba(17, 25, 40, 0.25);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    
+    /* حدود متدرجة */
+    /* border: 1.5px solid transparent; */
+    border-image: linear-gradient(135deg, rgba(120, 80, 240, 0.3), rgba(200, 120, 240, 0.3));
+    border-image-slice: 1;
+    
+    /* ظل متطور */
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 30px rgba(120, 80, 240, 0.2);
+    
+    border-radius: 80px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    z-index: 999999999;
+    right: auto;
+    top: 47%;
+    
+}
+
+/* تأثير التركيز */
+#searchBar:focus-within {
+    border-image: linear-gradient(135deg, #8a5cf65d, #ec489a62);
+    border-image-slice: 1;
+    box-shadow: 
+        0 35px 70px -15px #8a5cf644,
+        0 0 0 2px rgba(138, 92, 246, 0.24) inset,
+        0 0 60px #58398a56;
+        color: rgba(255, 255, 255, 0.842);
+}
+
+/* ===== حقل الإدخال ===== */
+#searchInput {
+    width: 100%;
+    height: 70px;
+    padding: 0 70px 0 30px;
+    right: auto;
+    background: transparent !important;
+    /* border: none !important; */
+    outline: none !important;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    box-sizing: border-box;
+    z-index: 99999999999;
+}
+
+/* تنسيق placeholder بشكل عصري */
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.815);
+    font-weight: 300;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    transform-origin: left;
+}
+
+#searchBar:focus-within #searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.719);
+}
+
+/* ===== تأثير الشعاع المتحرك (بديل النبض) ===== */
+
+/* الشعاع الأبيض المتحرك */
+#searchBar {
+    position: absolute;
+    overflow: hidden;
+}
+
+/* طبقة الشعاع */
+#searchBar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transform: translateX(-100%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* حركة الشعاع عند التركيز */
+#searchBar:focus-within::before {
+    animation: shimmer 3s infinite;
+}
+
+/* حركة الشعاع عند التحويم (اختياري) */
+#searchBar:hover::before {
+    animation: shimmer 3s infinite;
+}
+
+/* تعريف حركة الشعاع */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    20% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ===== النقاط المتحركة (كما هي) ===== */
+#searchBar::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+         #ffffff33, #0000002f);
+    background-size: 400% 400%;
+    border-radius: 82px;
+    z-index: -2;
+    opacity: 0;
+    transition: opacity 3s ease;
+    animation: gradientMove 3s ease-in-out infinite;
+}
+
+#searchBar:focus-within::after {
+    opacity: 0.3;
+}
+
+/* حركة التدرج */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 50% 100%; }
+}
+
+/* ===== تصميم للشاشات الصغيرة ===== */
+@media (max-width: 768px) {
+    #searchBar {
+        width: 90vw;
+    }
+    
+    #searchInput {
+        height: 60px;
+        font-size: 1rem;
+        padding: 0 60px 0 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #searchBar {
+        border-radius: 60px;
+    }
+    
+    #searchInput {
+        height: 52px;
+        font-size: 0.95rem;
+        padding: 0 50px 0 15px;
+    }
+}
