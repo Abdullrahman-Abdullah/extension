@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/short.css">
+    <link rel="stylesheet" href="./css/jqui.css">
+    <link rel="stylesheet" href="./css/todo.css">
+    <link rel="stylesheet" href="./css/notes.css">
+    <link rel="stylesheet" href="./css/datetime.css">
+    <link rel="stylesheet" href="./css/search.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..20" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="./images/logosearch.png" type="image/x-icon">
+	<script src="./js/jqui.js"></script>
+    <script src="./js/jquery-3.7.1.min.js"></script>
+</head>
+<body style="background-color: rgb(19, 21, 22)">
+
+    <div id="background" class="bg"></div>
+
+<!-- Push container - Notifications -->
+<div id="push-container" class="push hide">
+    <span class="push-message"></span>
+    <span class="push-close">×</span>
+</div>
+    
+    <div id="nav-container" class="side-nav-container">
+        <div id="open_close" class="open-close" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" id="gear" class="icon icon-tabler icon-tabler-settings" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#818181" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-bar-to-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12l10 0" /><path d="M10 12l4 4" /><path d="M10 12l4 -4" /><path d="M4 4l0 16" /></svg>
+            </svg>
+        </div>
+        <div id="mySidenav" class="sidenav" status="closed" style="z-index: 999999999;">
+            
+            
+            <!-- Minimalist Favorite Wallpapers List -->
+            <div id="favorites-wallpapers" class="favorites-wallpapers">
+                <div style="display:flex; align-items:center; justify-content:center; margin:16px 0 8px 0; position:relative;">
+                    <div class="management-buttons">
+                        <button id="wallpapers-btn" class="management-btn active" data-section="wallpapers" title="Manage Wallpapers">
+                            <span class="btn-label">Wallpapers</span>
+                        </button>
+                        <button id="widgets-btn" class="management-btn" data-section="widgets" title="Widget Settings">
+                            <span class="btn-label">Widgets</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Wallpapers Section -->
+                <div id="wallpapers-section" class="management-section active">
+                    <div id="random-info-msg" style="font-size:0.85em; color:#b3b3b3; margin:2px 0 10px 0; font-weight:400;">To see a random wallpaper on each new tab, make sure no Primary wallpaper is set.</div>
+                    <div id="wallpapers-list" style="display:flex; flex-direction:column; gap:10px;">
+                        <!-- Wallpapers will be injected here by JS -->
+                    </div>
+                </div>
+
+                <!-- Widgets Section -->
+                <div id="widgets-section" class="management-section">
+                    <div class="simple-widget-item active" data-target="search">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Search Bar</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+                    
+                    <div class="simple-widget-item active" data-target="shortcuts">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Shortcuts</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+                    
+                    <div class="simple-widget-item active" data-target="music" >
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Music</span>
+                            <span class="simple-widget-desc">Coming Soon!</span>
+                        </span>
+                        <!-- <div class="simple-toggle-switch"></div> -->
+                    </div>
+                    
+                    <div class="simple-widget-item active" data-target="video-playback">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Animation</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+                    
+                    <div class="simple-widget-item active" data-target="greeting">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Greeting</span>
+                            <span class="simple-widget-desc">Coming Soon!</span>
+                        </span>
+                        <!-- <div class="simple-toggle-switch"></div> -->
+                    </div>
+                    
+                    <div class="simple-widget-item" data-target="logo">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Logo</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+
+                    <div class="simple-widget-item" data-target="todoList">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">To-Do List</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+                    <div class="simple-widget-item" data-target="todoShort">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">To-Do Shortcut</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+                    <div class="simple-widget-item" data-target="notes">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Notes</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+                    <div class="simple-widget-item" data-target="date">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Date</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+                    <div class="simple-widget-item" data-target="time">
+                        <span class="simple-widget-info">
+                            <span class="simple-widget-name">Time</span>
+                            <span class="simple-widget-desc">Disable / Enable</span>
+                        </span>
+                        <div class="simple-toggle-switch"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Download Wallpapers Section -->
+             <!-- <div id="manage_video">
+                
+            </div> -->
+            <div id="account-footer" style="margin-top: auto; padding: 16px 12px 12px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06);">
+
+                <div id="add_video" class="settings" style="margin-bottom: 10px;">
+                        <p id="add_video_file" class="add_video_button">Upload Wallpaper</p>
+                      </div>
+                      
+                      <p style="margin-bottom: 10px; color: white; font-size:1rem;">or</p>
+                      <hr><hr>
+                <button id="download-btn" class="download-wallpapers-btn" type="button">
+                    Download Wallpaper Online
+                </button>
+                
+                <!-- Support Button -->
+                <!-- <button id="support-btn" class="support-btn" type="button" title="Support the project ❤️" style="display: none;">
+                    <span class="support-icon">☕</span>
+                    <span class="support-text">Buy us a Coffee</span>
+                </button> -->
+                
+                <!-- App info -->
+                <div id="app-version" style="font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 10px; letter-spacing: 0.2px;">
+                    all right reserved © 2026 | Reson
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Blur overlay shown when side menu is open -->
+    <div id="side-blur-overlay" class="side-blur-overlay"></div>
+    <!-- Confirm delete modal -->
+    <div id="confirm-backdrop" class="confirm-backdrop">
+        <div class="confirm-box">
+            <div id="confirm-text">Are you sure you want to delete this wallpaper?</div>
+            <div class="confirm-actions">
+                <button id="confirm-cancel" class="neutral">Cancel</button>
+                <button id="confirm-yes" class="danger">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Playlist Edit Modal -->
+    <div id="playlist-edit-backdrop" class="playlist-modal-backdrop">
+        <div class="playlist-modal-box">
+            <div class="playlist-modal-header">
+                <h3 class="playlist-modal-title">📝 Edit Playlist Name</h3>
+                <button id="playlist-edit-close" class="playlist-modal-close">×</button>
+            </div>
+            <div class="playlist-modal-content">
+                <input type="text" id="playlist-edit-input" class="playlist-edit-input" placeholder="Enter new playlist name..." />
+            </div>
+            <div class="playlist-modal-actions">
+                <button id="playlist-edit-cancel" class="playlist-btn-cancel">Cancel</button>
+                <button id="playlist-edit-save" class="playlist-btn-save">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Playlist Delete Confirmation Modal -->
+    <div id="playlist-delete-backdrop" class="playlist-modal-backdrop">
+        <div class="playlist-modal-box playlist-modal-delete">
+            <div class="playlist-modal-header">
+                <h3 class="playlist-modal-title">🗑️ Delete Playlist</h3>
+                <button id="playlist-delete-close" class="playlist-modal-close">×</button>
+            </div>
+            <div class="playlist-modal-content">
+                <p id="playlist-delete-text" style="color: rgba(255,255,255,0.8); margin: 0;">Are you sure you want to delete this playlist? This action cannot be undone.</p>
+            </div>
+            <div class="playlist-modal-actions">
+                <button id="playlist-delete-cancel" class="playlist-btn-cancel">Cancel</button>
+                <button id="playlist-delete-confirm" class="playlist-btn-delete">Delete Permanently</button>
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- Old elegant login popup removed - now using upgrade modal with license keys -->
+
+<div class="tile-container">
+    <div id="LogoContainer" >
+        <div id="logo-link" style="cursor: pointer; display: inline-block; width: 100%; height: 100%;" role="button" tabindex="0" >
+            <img src="./images/logosearch.png" alt="Reson logo" id="wLogo" >
+        </div>
+    </div>
+    <div id="searchBar">
+ 
+        <input type="text" id="searchInput" placeholder="Search Engine Via Reson" >
+        <span id="searchTrigger" class="material-symbols-outlined" > search </span>
+    </div>
+
+    <div id="blurOverlay"></div>
+
+
+    <!-- العنصر الجديد القابل للتحريك -->
+<div class="glass-todo-short" id="todo-short" class="hidden">
+    <!-- مقبض السحب الخاص به -->
+    <div class="todo-drag-handle" id="dragHandle2" >
+        <div class="drag-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="drag-hint">Drag</span>
+    </div>
+    
+    <!-- محتوى العنصر -->
+    <div class="todo-short-content" >
+            <ul class="todo-items-list" id="todoList2" ></ul>
+
+    </div>
+</div>
+    
+
+
+     <!-- To-Do List -->
+<!-- To-Do List - مع خاصية التحريك -->
+<div class="glass-todo" id="draggableTodo" class="hidden">
+    <!-- رأس قابل للسحب -->
+    <div class="todo-drag-handle" id="dragHandle">
+        <div class="drag-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="drag-hint">adjust place via long press</span>
+    </div>
+
+    <!-- المحتوى الأساسي -->
+    <div class="todo-content">
+        <div class="todo-header">
+            <div class="todo-title">
+                <i class="bi bi-check2-square"></i>
+                <span>قائمة المهام</span>
+            </div>
+            <div class="todo-stats-badge" id="todoStats">
+                <span id="completedCount">0</span>/<span id="totalCount">0</span>
+            </div>
+        </div>
+
+        <div class="todo-add-section">
+            <input type="text" id="todoInput" placeholder="أكتب مهمة جديدة..." class="todo-input">
+            <button id="addTodoBtn" class="todo-add-btn">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+
+        <ul class="todo-items-list" id="todoList"></ul>
+
+        <div class="todo-footer">
+            <div class="todo-footer-info">
+                <i class="bi bi-check-circle"></i>
+                <span class="todo-footer-text" id="remainingText">كل المهام مكتملة!</span>
+            </div>
+            <button class="todo-clear-btn" id="clearCompletedBtn">
+                <i class="bi bi-trash3"></i>
+                <span>مسح</span>
+            </button>
+        </div>
+    </div>
+    <div class="todo-resize-handle" id="todoResizeHandle">
+        <i class="bi bi-arrow-up-left"></i>
+    </div>
+</div>
+
+
+<!-- Notes Widget -->
+<div class="glass-notes" id="notes-widget">
+    <!-- مقبض السحب -->
+    <div class="notes-drag-handle" id="notesDragHandle">
+        <div class="drag-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="drag-hint">adjust place via long press</span>
+    </div>
+    
+    <!-- محتوى الملاحظات -->
+    <div class="notes-content">
+        <div class="notes-header">
+            <div class="notes-title">
+                <i class="bi bi-sticky"></i>
+                <span>الملاحظات</span>
+            </div>
+            <button class="notes-add-btn" id="addNoteBtn">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+        
+        <!-- قائمة الملاحظات -->
+        <div class="notes-list" id="notesList"></div>
+    </div>
+    <div class="notes-resize-handle" id="notesResizeHandle">
+        <i class="bi bi-arrow-up-left"></i>
+    </div>
+</div>
+
+<!-- Modal إضافة/تعديل ملاحظة -->
+<div class="notes-modal-backdrop" id="noteModalBackdrop" >
+    <div class="notes-modal" >
+        <div class="notes-modal-header">
+            <h3 id="noteModalTitle">ملاحظة جديدة</h3>
+            <button class="notes-modal-close" id="closeNoteModal">&times;</button>
+        </div>
+        <div class="notes-modal-body">
+            <input type="text" id="noteTitleInput" placeholder="عنوان الملاحظة" class="notes-title-input">
+            <textarea id="noteContentInput" placeholder="محتوى الملاحظة..." class="notes-content-input" rows="4"></textarea>
+        </div>
+        <div class="notes-modal-footer">
+            <button class="notes-btn-cancel" id="cancelNoteBtn">إلغاء</button>
+            <button class="notes-btn-save" id="saveNoteBtn">حفظ</button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ===== قسم الوقت (Time Widget) ===== -->
+<div class="glass-time" id="time-widget">
+    <!-- مقبض السحب -->
+    <div class="time-drag-handle" id="timeDragHandle">
+        <div class="drag-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <!-- <span class="drag-hint">adjust place via long press</span> -->
+    </div>
+    
+    <!-- محتوى الوقت -->
+    <div class="time-content">
+        <div class="time-icon">
+            <i class="bi bi-clock"></i>
+        </div>
+        <div class="time-display" id="timeDisplay">00:00:00</div>
+        <div class="time-period" id="timePeriod">AM</div>
+    </div>
+    
+    <!-- مقبض تغيير الحجم -->
+    <div class="time-resize-handle" id="timeResizeHandle">
+        <i class="bi bi-arrow-up-left"></i>
+    </div>
+</div>
+
+<!-- ===== قسم التاريخ (Date Widget) ===== -->
+<div class="glass-date" id="date-widget">
+    <!-- مقبض السحب -->
+    <div class="date-drag-handle" id="dateDragHandle">
+        <div class="drag-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <!-- <span class="drag-hint">adjust place via long press</span> -->
+    </div>
+    
+    <!-- محتوى التاريخ -->
+    <div class="date-content">
+        <div class="date-icon">
+            <i class="bi bi-calendar3"></i>
+        </div>
+        <div class="date-display" id="dateDisplay">Monday</div>
+        <div class="date-full" id="dateFull">January 1, 2024</div>
+    </div>
+    
+    <!-- مقبض تغيير الحجم -->
+    <div class="date-resize-handle" id="dateResizeHandle">
+        <i class="bi bi-arrow-up-left"></i>
+    </div>
+</div>
+
+
+
+
+</div>
+</div>
+
+<!-- Old premium and create account modals removed - now using upgrade modal with license keys -->
+</div>
+
+<!-- Floating Music Widget -->
+<div id="music-widget" class="music-widget" >
+    <button id="music-widget-btn" class="music-widget-btn" title="Focus & Music">
+        <svg class="music-icon-note" viewBox="0 0 24 24" width="32" height="32" fill="white">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+    </button>
+</div>
+
+<!-- Music Modal (Centered) -->
+<div id="music-modal-backdrop" class="music-modal-backdrop">
+    <div id="music-widget-panel" class="music-widget-panel">
+        <div class="music-panel-header">
+            <span class="music-panel-title">Focus & Music</span>
+            <button id="music-panel-close" class="music-panel-close">×</button>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="music-tab-navigation">
+            <button class="music-tab-btn active" data-tab="sounds">
+                <span class="tab-label">Sounds</span>
+            </button>
+            <button class="music-tab-btn" data-tab="library">
+                <span class="tab-label">Playlist Library</span>
+            </button>
+            <button class="music-tab-btn" data-tab="my-library">
+                <span class="tab-label">My Playlist</span>
+            </button>
+        </div>
+        
+        <div class="music-panel-content">
+            <!-- Sounds Tab -->
+            <div id="sounds-tab" class="music-tab-content active">
+                <div class="sounds-grid">
+                    <!-- Nature Sounds -->
+                    <div class="sound-card" data-sound="rain" data-file="rain.wav" data-name="Rain">
+                        <div class="sound-icon">🌧️</div>
+                        <div class="sound-name">Rain</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="beach" data-file="beach.mp3" data-name="Ocean Waves">
+                        <div class="sound-icon">🌊</div>
+                        <div class="sound-name">Ocean Waves</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="storm" data-file="storm.wav" data-name="Thunderstorm">
+                        <div class="sound-icon">⛈️</div>
+                        <div class="sound-name">Thunderstorm</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="birds" data-file="birds.mp3" data-name="Forest Birds">
+                        <div class="sound-icon">🐦</div>
+                        <div class="sound-name">Forest Birds</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+
+                    <div class="sound-card" data-sound="forest" data-file="forest-ambience.mp3" data-name="Deep Forest">
+                        <div class="sound-icon">🌲</div>
+                        <div class="sound-name">Forest Ambience</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="river" data-file="river.mp3" data-name="River Flow">
+                        <div class="sound-icon">🏞️</div>
+                        <div class="sound-name">River Flow</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="waterfall" data-file="waterfall.wav" data-name="Waterfall">
+                        <div class="sound-icon">💧</div>
+                        <div class="sound-name">Waterfall</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="desert" data-file="desert.wav" data-name="Desert Wind">
+                        <div class="sound-icon">🏜️</div>
+                        <div class="sound-name">Desert Wind</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="swamp" data-file="swamp.wav" data-name="Swamp Sounds">
+                        <div class="sound-icon">🐸</div>
+                        <div class="sound-name">Swamp Sounds</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <!-- Fire & Warmth -->
+                    <div class="sound-card" data-sound="campfire" data-file="campfire.wav" data-name="Campfire">
+                        <div class="sound-icon">🔥</div>
+                        <div class="sound-name">Campfire</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <!-- Urban & Transport -->
+                    <div class="sound-card" data-sound="city" data-file="city.wav" data-name="City Ambience">
+                        <div class="sound-icon">🏙️</div>
+                        <div class="sound-name">City Ambience</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="city_night" data-file="city_night.mp3" data-name="City Night">
+                        <div class="sound-icon">🌃</div>
+                        <div class="sound-name">City Night</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="plane" data-file="plane.wav" data-name="Airplane Cabin">
+                        <div class="sound-icon">✈️</div>
+                        <div class="sound-name">Airplane Cabin</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="train" data-file="train.wav" data-name="Train Journey">
+                        <div class="sound-icon">🚂</div>
+                        <div class="sound-name">Train Journey</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="submarine" data-file="submarine.wav" data-name="Submarine">
+                        <div class="sound-icon">🛟</div>
+                        <div class="sound-name">Submarine</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <!-- Fun & Playful -->
+                    <div class="sound-card" data-sound="playground" data-file="playground.wav" data-name="Playground">
+                        <div class="sound-icon">🎠</div>
+                        <div class="sound-name">Playground</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="vinyl" data-file="vinyl.mp3" data-name="Vinyl Crackle">
+                        <div class="sound-icon">💽</div>
+                        <div class="sound-name">Vinyl Crackle</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <!-- Evening & Night -->
+                    <div class="sound-card" data-sound="night" data-file="night.wav" data-name="Night Sounds">
+                        <div class="sound-icon">🌙</div>
+                        <div class="sound-name">Night Sounds</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <!-- Peaceful & Meditative -->
+                    <div class="sound-card" data-sound="chimes" data-file="chimes.mp3" data-name="Wind Chimes">
+                        <div class="sound-icon">🎐</div>
+                        <div class="sound-name">Wind Chimes</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="chimes_wav" data-file="chimes.wav" data-name="Temple Bells">
+                        <div class="sound-icon">🔔</div>
+                        <div class="sound-name">Temple Bells</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <!-- White Noise & Background -->
+                    <div class="sound-card" data-sound="white_noise" data-file="white_noise.mp3" data-name="White Noise">
+                        <div class="sound-icon">📻</div>
+                        <div class="sound-name">White Noise</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="bar" data-file="bar.wav" data-name="Coffee Shop">
+                        <div class="sound-icon">☕</div>
+                        <div class="sound-name">Coffee Shop</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-card" data-sound="end_sound_timer" data-file="end_sound_timer.mp3" data-name="Meditation Bell">
+                        <div class="sound-icon">🧘</div>
+                        <div class="sound-name">Meditation Bell</div>
+                        <div class="sound-volume-container">
+                            <input type="range" class="sound-volume" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Playlist Library Tab -->
+            <div id="library-tab" class="music-tab-content">
+                <div class="playlist-grid">
+                    <div class="playlist-card" data-url="https://open.spotify.com/playlist/6wdPoBQJJueo68bJv1CIVr" data-name="Lofi Study & Chill">
+                        <div class="playlist-cover">🎵</div>
+                        <div class="playlist-info">
+                            <div class="playlist-name">Lofi Study & Chill</div>
+                            <div class="playlist-desc">Relaxing beats for focus</div>
+                        </div>
+                    </div>
+                    <div class="playlist-card" data-url="https://open.spotify.com/playlist/1scHOA1iLHWUGBVB3i6DVL" data-name="Rainy Day Focus">
+                        <div class="playlist-cover">🌧️</div>
+                        <div class="playlist-info">
+                            <div class="playlist-name">Rainy Day Focus</div>
+                            <div class="playlist-desc">Calming rainy day vibes</div>
+                        </div>
+                    </div>
+                    <div class="playlist-card" data-url="https://open.spotify.com/playlist/0hDnRafOHC0HVaSoNsyJe1" data-name="Holiday Lofi">
+                        <div class="playlist-cover">🎄</div>
+                        <div class="playlist-info">
+                            <div class="playlist-name">Holiday Lofi</div>
+                            <div class="playlist-desc">Festive relaxing music</div>
+                        </div>
+                    </div>
+                    <div class="playlist-card" data-url="https://open.spotify.com/playlist/7mU7XEz9615dBTFhtthmsS" data-name="Video Game Music">
+                        <div class="playlist-cover">🎯</div>
+                        <div class="playlist-info">
+                            <div class="playlist-name">Video Game Music</div>
+                            <div class="playlist-desc">Chill Gaming Songs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Library Tab -->
+            <div id="my-library-tab" class="music-tab-content">
+                <div class="my-library-section" id="custom-music-section">
+                    <div class="add-playlist-form">
+                        <div class="form-header">
+                            <span class="form-icon">➕</span>
+                            <span class="form-title">Add Your Playlist</span>
+                        </div>
+                        <input type="text" id="music-url-input" class="music-url-input" placeholder="Paste Spotify or SoundCloud URL...">
+                        <div id="playlist-name-display" style="font-size: 0.9em; color: rgba(255,255,255,0.6); margin-top: 6px; margin-bottom: 12px; min-height: 20px;"></div>
+                        <div class="music-panel-actions">
+                            <button id="music-save-btn" class="music-action-btn music-save-btn" title="Save this playlist to your library">
+                                <span>💾</span> Save
+                            </button>
+                            <button id="music-play-btn" class="music-action-btn music-play-btn">
+                                <span>▶</span> Play
+                            </button>
+                            <button id="music-stop-btn" class="music-action-btn music-stop-btn">
+                                <span>⏹</span> Stop
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- User's saved playlists will be displayed here -->
+                    <div class="user-playlists">
+                        <div class="section-title" id="my-playlists-title" style="display: none;">Your Playlists (Max 6)</div>
+                        <div id="user-playlist-grid" class="playlist-grid">
+                            <!-- User playlists will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Music Player Container -->
+            <div id="music-player-container" class="music-player-container"></div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- 
+
+<div class="glass-card todo-section" style="z-index: 99999999999999999999;">
+    <div class="section-header">
+        <h2><i class="fas fa-tasks"></i> قائمة المهام</h2>
+        <span class="todo-stats" id="todoStats">0/0</span>
+    </div>
+    <div class="todo-input-container">
+        <input type="text" id="todoInput" placeholder="أضف مهمة جديدة...">
+        <button id="addTodoBtn"><i class="fas fa-plus"></i></button>
+    </div>
+    <ul class="todo-list" id="todoList"></ul>
+</div> -->
+
+<!-- Dynamic Greeting -->
+<div id="greeting-container" class="greeting-container">
+    <div id="greeting-text" class="greeting-text">Good Night</div>
+    <div id="greeting-subtitle" class="greeting-subtitle">
+        Hope you're having a great time when codeing!
+    </div>
+</div>
+
+
+        </div>
+
+
+         
+
+
+  <div id="shortcuts-container">
+    <div id="shortcuts">
+        <!-- Shortcut-ul pentru adăugare -->
+        <div id="add-shortcut" class="shortcut add-shortcut">
+            <span>+</span>
+            <span style="font-size:0.4em; font-weight: 450; width: 100%; margin: 0; position: absolute; bottom: 15%;">7 max</span>
+        </div>
+    </div>
+</div>
+
+<!-- Formular pentru adăugare/editare -->
+<div id="shortcut-form-container" class="hidden">
+    <div id="shortcut-form-wrapper">
+        <div class="form-header">
+            <h3 id="form-title">Add Shortcut</h3>
+            <button type="button" id="close-shortcut" class="close-button">&times;</button>
+        </div>
+        <form id="shortcut-form">
+            <input type="text" id="shortcut-name" placeholder="Website Name" required />
+            <input type="url" id="shortcut-url" placeholder="Website URL" required />
+            <button type="submit" class="modern-button">Save</button>
+            <button type="button" id="delete-shortcut" class="modern-button danger" style="display: none;">Delete</button>
+        </form>
+    </div>
+    </div>
+
+
+    <!-- Review Request Modal -->
+    <div id="review-modal-backdrop" class="review-modal-backdrop">
+        <div id="review-modal-wrapper" class="review-modal-wrapper">
+            <div class="review-modal-content">
+                <button type="button" id="review-modal-close" class="review-modal-close">×</button>
+                
+                <div class="review-modal-icon">⭐</div>
+                
+                <h2 class="review-modal-title">Love Wallsflow?</h2>
+                <p class="review-modal-subtitle">Help us grow by leaving a review on Chrome Web Store</p>
+                
+                <div class="review-modal-stars">
+                    <span class="review-star">★</span>
+                    <span class="review-star">★</span>
+                    <span class="review-star">★</span>
+                    <span class="review-star">★</span>
+                    <span class="review-star">★</span>
+                </div>
+                
+                <div class="review-modal-buttons">
+                    <button id="review-btn-leave" class="review-btn-primary">Leave a Review</button>
+                    <button id="review-btn-later" class="review-btn-secondary">Maybe Later</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>    
+    <script src="./js/script.js"></script>
+    <script src="./js/short.js"></script>
+    <!-- <script src="../js/parallax.js"></script> Disabled for performance -->
+    <script src="./js/colorExtractor.js"></script>
+    <script src="./js/resizeable.js"></script>
+    <script src="./js/todo.js"></script>
+    <script src="./js/notes.js"></script>
+    <script src="./js/datetime.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/layer.js"></script>
+</body>
+</html>

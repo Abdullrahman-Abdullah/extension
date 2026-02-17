@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Reson | Customaize Your Home Page",
+  "version": "1.0",
+  "icons": {
+    "16": "images/logosearch.png",
+    "48": "images/logosearch.png",
+    "128": "images/logosearch.png"
+  },
+  "action": {
+    "default_icon": "images/logosearch.png"
+  },
+  "description": "Reson is a powerful Chrome extension that enhances your browsing experience by providing seamless access to your bookmarks and a personalized new tab page. With Reson, you can easily organize and manage your bookmarks, making it effortless to find and access your favorite websites. The extension also offers a customizable new tab page that allows you to personalize your browsing experience with widgets, shortcuts, and a clean interface. Whether you're looking to boost your productivity or simply want a more enjoyable browsing experience, Reson is the perfect tool for you.",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": [
+    "storage",
+    "bookmarks",
+    "search"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
